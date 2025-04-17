@@ -1,10 +1,13 @@
 package com.techhub.demo.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,13 +19,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.techhub.demo.Model.LoginRequest;
 import com.techhub.demo.Model.RegistrationModel;
 import com.techhub.demo.Service.RegistrationService;
+
+import jakarta.servlet.http.HttpSession;
 
 import com.techhub.demo.Exceptions.ErrorMessage;
 import com.techhub.demo.Exceptions.UserNotFoundException;
 
 @RestController
+@CrossOrigin("http://localhost:5173")
 public class RegistrationController {
 
 	@Autowired
@@ -50,10 +57,23 @@ public class RegistrationController {
 		}
 	}
 
-	@GetMapping("/searchuserByName/{name}")
-	public RegistrationModel  searchUser(@PathVariable("name") String regname)
+//	@GetMapping("/searchuserByName/{name}")
+//	public RegistrationModel  searchUser(@PathVariable("name") String regname)
+//	{
+//		RegistrationModel rm= RegService.getUserByName(regname);
+//		if(rm!=null)
+//		{
+//			return rm;
+//		}
+//		else {
+//			throw new UserNotFoundException("User is not found");
+//		}
+//	}
+
+	@GetMapping("/searchuserByPattern/{pattern}")
+	public List<RegistrationModel>  searchUser(@PathVariable("pattern") String pattern)
 	{
-		RegistrationModel rm= RegService.getUserByName(regname);
+		List<RegistrationModel> rm= RegService.getUserByPattern(pattern);
 		if(rm!=null)
 		{
 			return rm;
@@ -62,7 +82,6 @@ public class RegistrationController {
 			throw new UserNotFoundException("User is not found");
 		}
 	}
-
 	@GetMapping("/deleteUserByID/{name}")
 	public String deleteUserByName(@PathVariable("name") String regname){
 		boolean b = RegService.isDeleteUserByName(regname);
@@ -89,4 +108,38 @@ public class RegistrationController {
 				}
 	}
 	
+//	@GetMapping("/userLogin/{email}/{password}")
+//    public String userLogin(@PathVariable("email") String email, @PathVariable("password") String password) {
+//		RegistrationModel user = RegService.userLogin(email, password);
+//	    if(user != null) {
+//	        UserContext.userId = user.getId(); // or UserContext.getInstance().setUserId(user.getId());
+//	        return "Logged in Successfully. Your User ID is: " + user.getId();
+//	    } else {
+//	        return "Login Failed !!";
+//	    }
+//	}
+
+	@PostMapping("/userLogin")
+	public String userLogin(@RequestBody LoginRequest loginRequest, HttpSession session) {
+	    RegistrationModel user = RegService.userLogin(loginRequest.getEmail(), loginRequest.getPassword());
+	    if (user != null) {
+	        session.setAttribute("userId", user.getId());  // safer than static UserContext
+	        return "Logged in Successfully. Your User ID is: " + user.getId();
+	    } else {
+	        return "Login Failed !!";
+	    }
+	}
+	
+	@PutMapping("/changePassword/{email}")
+	public String changePassword(@PathVariable("email") String email, @RequestBody RegistrationModel model) {
+	    if (RegService.changePassword(email, model)) {
+	        return "Password Changed Successfully...";
+	    } else {
+	        return "Password not Changed !!! Please Try Again Later";
+	    }
+	}
+
+	private Map<String, String> otpCache = new HashMap<>();
+
+
 }

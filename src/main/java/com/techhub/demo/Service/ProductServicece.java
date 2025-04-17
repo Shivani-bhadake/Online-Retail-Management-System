@@ -31,4 +31,8 @@ public class ProductServicece {
 	{
 		return repo.getProductByName(Name);
 	}
+	public List<ProductModel> getProductByPattern(String pattern)
+	{
+		return repo.getProductByPattern(pattern);
+	}
 }

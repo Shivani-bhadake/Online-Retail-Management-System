@@ -1,7 +1,10 @@
 package com.techhub.demo.Model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class RegistrationModel {
 		private int id;
@@ -11,6 +14,8 @@ public class RegistrationModel {
 		private String password;
 		private String role;
 		private String contact;
+		
+		
 		
 
 }

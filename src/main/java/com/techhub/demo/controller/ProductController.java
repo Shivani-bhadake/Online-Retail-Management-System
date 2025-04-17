@@ -60,11 +60,11 @@ public class ProductController {
 		boolean b = prod.isUpdateProduct(product);
 				if(b)
 				{
-					return "Registrated user is update"+product;
+					return "product user is update"+product;
 				}
 				else
 				{
-					throw new UserNotFoundException("User is not found");
+					throw new UserNotFoundException("product is not found");
 				}
 	}
 	@GetMapping("/searchproductByName/{name}")
@@ -76,7 +76,19 @@ public class ProductController {
 			return rm;
 		}
 		else {
-			throw new UserNotFoundException("User is not found");
+			throw new UserNotFoundException("product is not found");
+		}
+	}
+	@GetMapping("/searchProductByPattern/{pattern}")
+	public List<ProductModel> searchUserByPattern(@PathVariable("pattern") String pattern)
+	{
+		List<ProductModel> rm= prod.getProductByPattern(pattern);
+		if(rm!=null)
+		{
+			return rm;
+		}
+		else {
+			throw new UserNotFoundException("product is not found");
 		}
 	}
 }

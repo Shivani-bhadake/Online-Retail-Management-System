@@ -5,12 +5,13 @@ import lombok.Data;
 public class ProductModel {
 	
 		private int pid;
-		private String name;
+		private String proname;
 		private String description;
 		private int price;
 		private int stock;
 	
 		private String pcname;
-		
+		 private int totalPrice;
+	
 	
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
@@ -64,25 +65,25 @@ public class RegisterRepository {
 		return list; //RegService.getAllRegistration();
 	}
 	
-	public RegistrationModel getUserByName(String Name)
-	{
-		list=jdbcTemplate.query("select *from RegistrationMaster where Name=?",new Object[] {Name},new RowMapper<RegistrationModel>() {
-
-			@Override
-			public RegistrationModel mapRow(ResultSet rs, int rowNum) throws SQLException {
-				RegistrationModel  Reg = new RegistrationModel();
-				Reg.setEmail(rs.getString(1));
-				Reg.setName(rs.getString(2));
-				Reg.setAddress(rs.getString(3));
-				Reg.setPassword(rs.getString(4));
-				Reg.setRole(rs.getString(5));
-				Reg.setContact(rs.getString(6));
-				return Reg;
-			}
-			
-		});
-		return list.size()>0?list.get(0):null; 
-	}
+//	public RegistrationModel getUserByName(String Name)
+//	{
+//		list=jdbcTemplate.query("select *from RegistrationMaster where Name=?",new Object[] {Name},new RowMapper<RegistrationModel>() {
+//
+//			@Override
+//			public RegistrationModel mapRow(ResultSet rs, int rowNum) throws SQLException {
+//				RegistrationModel  Reg = new RegistrationModel();
+//				Reg.setEmail(rs.getString(1));
+//				Reg.setName(rs.getString(2));
+//				Reg.setAddress(rs.getString(3));
+//				Reg.setPassword(rs.getString(4));
+//				Reg.setRole(rs.getString(5));
+//				Reg.setContact(rs.getString(6));
+//				return Reg;
+//			}
+//			
+//		});
+//		return list.size()>0?list.get(0):null; 
+//	}
 	
 	public boolean isDeleteUserByName(String regname){
 		  String sql = "DELETE FROM RegistrationMaster WHERE Name = ?";
@@ -109,4 +110,50 @@ public class RegisterRepository {
 		return value>0?true:false;
 	}
 	
+	public RegistrationModel userLogin(String email, String password) {
+	    try {
+	        return jdbcTemplate.queryForObject(
+	                "SELECT * FROM RegistrationMaster WHERE email = ? AND password = ?",
+	                new Object[]{email, password},
+	                new RowMapper<RegistrationModel>() {
+	                    @Override
+	                    public RegistrationModel mapRow(ResultSet rs, int rowNum) throws SQLException {
+	                    	RegistrationModel user = new RegistrationModel();
+	                        user.setId(rs.getInt("rid")); 
+	                        user.setEmail(rs.getString("email"));
+	                        user.setPassword(rs.getString("password"));
+	                        return user;
+	                    }
+	                }
+	        );
+	    } catch (EmptyResultDataAccessException e) {
+	        return null;
+	    }
+	}
+	public List<RegistrationModel> getUserByPattern(String pattern)
+	{
+		list=jdbcTemplate.query("select *from RegistrationMaster where Name like '%"+pattern+"%'",new RowMapper<RegistrationModel>() {
+
+			@Override
+			public RegistrationModel mapRow(ResultSet rs, int rowNum) throws SQLException {
+				RegistrationModel  Reg = new RegistrationModel();
+				Reg.setEmail(rs.getString(1));
+				Reg.setName(rs.getString(2));
+				Reg.setAddress(rs.getString(3));
+				Reg.setPassword(rs.getString(4));
+				Reg.setRole(rs.getString(5));
+				Reg.setContact(rs.getString(6));
+				return Reg;
+			}
+			
+		});
+		return list.size()>0?list:null; 
+	}
+	
+	public boolean changePassword(String email,RegistrationModel model) {
+		 int result = jdbcTemplate.update(
+		            "UPDATE RegistrationMaster SET Password = ? WHERE email = ?",
+		            model.getPassword(), email
+		        );		return result>0;
+	}
 }

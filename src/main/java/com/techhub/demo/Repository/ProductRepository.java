@@ -28,7 +28,7 @@ public class ProductRepository {
 					@Override
 					public void setValues(PreparedStatement ps) throws SQLException {
 						ps.setInt(1, product.getPid());
-						ps.setString(2, product.getName());
+						ps.setString(2, product.getProname());
 						ps.setString(3, product.getDescription());
 						ps.setInt(4, product.getPrice());
 						ps.setInt(5, product.getStock());
@@ -49,7 +49,7 @@ public class ProductRepository {
 			public ProductModel mapRow(ResultSet rs, int rowNum) throws SQLException {
 				ProductModel  pro = new ProductModel();
 				pro.setPid(rs.getInt(1));
-				pro.setName(rs.getString(2));
+				pro.setProname(rs.getString(2));
 				pro.setDescription(rs.getString(3));
 				pro.setPrice(rs.getInt(4));
 				pro.setStock(rs.getInt(5));
@@ -73,7 +73,7 @@ public class ProductRepository {
 
 			@Override
 			public void setValues(PreparedStatement ps) throws SQLException {
-				ps.setString(1, Product.getName());
+				ps.setString(1, Product.getProname());
 				ps.setString(2,Product.getDescription());
 				ps.setInt(3, Product.getPrice());
 				ps.setInt(4, Product.getStock());
@@ -92,7 +92,7 @@ public class ProductRepository {
 			public ProductModel mapRow(ResultSet rs, int rowNum) throws SQLException {
 				ProductModel  prod = new ProductModel();
 				prod.setPid(rs.getInt(1));
-				prod.setName(rs.getString(2));
+				prod.setProname(rs.getString(2));
 				prod.setDescription(rs.getString(3));
 				prod.setPrice(rs.getInt(4));
 				prod.setStock(rs.getInt(5));
@@ -102,5 +102,25 @@ public class ProductRepository {
 			
 		});
 		return list.size()>0?list.get(0):null; 
+	}
+	public List<ProductModel> getProductByPattern(String pattern)
+	{
+		list=jdbcTemplate.query("select *from Product where ProdName like '%"+pattern+"%'",new RowMapper<ProductModel>() {
+
+			@Override
+			public ProductModel mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				ProductModel  prod = new ProductModel();
+				prod.setPid(rs.getInt(1));
+				prod.setProname(rs.getString(2));
+				prod.setDescription(rs.getString(3));
+				prod.setPrice(rs.getInt(4));
+				prod.setStock(rs.getInt(5));
+//				prod.setPcname(rs.getString(6));
+				return prod;
+			}
+			
+		});
+		return list.size()>0?list:null; 
 	}
 }

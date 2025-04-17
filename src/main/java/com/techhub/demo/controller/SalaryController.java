@@ -37,11 +37,11 @@ public class SalaryController {
 		boolean b = salService.isUpdateEmpSalary(salary);
 				if(b)
 				{
-					return "Registrated user is update"+salary;
+					return "Salary of Employee is update"+salary;
 				}
 				else
 				{
-					throw new UserNotFoundException("User is not found");
+					throw new UserNotFoundException("Salary is not found");
 				}
 	}
 	@GetMapping("/viewEmpInfo")

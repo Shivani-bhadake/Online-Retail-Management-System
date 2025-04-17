@@ -21,15 +21,25 @@ public class RegistrationService {
 		return RegRepo.getAllRegistration();
 	}
 	
-	public RegistrationModel getUserByName(String name)
-	{
-		return RegRepo.getUserByName(name);
-	}
+//	public RegistrationModel getUserByName(String name)
+//	{
+//		return RegRepo.getUserByName(name);
+//	}
 	public boolean isDeleteUserByName( String regname){
 		return RegRepo.isDeleteUserByName(regname);
 	}
 	public boolean isUpdateUser(RegistrationModel registration)
 	{
 		return RegRepo.isUpdateUser(registration);
+	}
+	public RegistrationModel userLogin(String email, String password) {
+		return RegRepo.userLogin(email, password);
+	}
+	public List<RegistrationModel> getUserByPattern(String pattern)
+	{
+		return RegRepo.getUserByPattern(pattern);
+	}
+	public boolean changePassword(String email,RegistrationModel model){
+		return RegRepo.changePassword(email, model);
 	}
 }

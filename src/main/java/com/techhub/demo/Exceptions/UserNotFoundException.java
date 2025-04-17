@@ -7,4 +7,5 @@ public class UserNotFoundException extends RuntimeException{
 	{	super(massage);
 		this.massage=massage;
 	}
+	 
 }
