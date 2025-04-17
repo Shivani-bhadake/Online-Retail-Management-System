@@ -23,13 +23,14 @@ public class CartController {
 	        boolean result = cartS.addToCart(cart);
 	        return result ? "Item added to cart!" : "Failed to add item.";
 	    }
-	 @GetMapping("/view/{rid}")
-	    public CartModel viewCart(@PathVariable int rid) {
-		 CartModel lt=cartS.getCartDetailsById(rid);
-		 if (lt != null) {
-				return lt;
-			} else {
-				throw new UserNotFoundException("there is no data in database");
-			}
-	    }
+	 @GetMapping("/viewallCartInfo/{cartId}")
+	 public CartModel viewCart(@PathVariable int cartId) {
+	     CartModel cart = cartS.getCartDetailsById(cartId);
+	     if (cart != null) {
+	         return cart;
+	     } else {
+	         throw new UserNotFoundException("There is no data in the database");
+	     }
+	 }
+
 }

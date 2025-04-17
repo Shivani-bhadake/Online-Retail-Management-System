@@ -8,7 +8,7 @@ public class CartModel {
 	 private int rid;
 	 private int prodId;
 	 private int quantity;
-	 private int totalPrice;
+	
 	 private RegistrationModel registration;
 	 private ProductModel product;
 }

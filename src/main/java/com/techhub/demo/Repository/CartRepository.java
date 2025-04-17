@@ -42,9 +42,9 @@ public class CartRepository {
 	    }
 
 	 public CartModel getCartDetailsById(int cartId) {
-		    String sql = "SELECT c.CartId, r.Rid, r.Name, r.Email, r.Address,r.PhoneNo, p.ProdId, p.ProdName, p.Description, p.Price, " +
-		                 "c.Quantity, (p.Price * c.Quantity) AS TotalPriceFROM Cart c JOIN RegistrationMaster r ON c.Rid = r.Rid " +
-		                 "JOIN Product p ON c.ProdId = p.ProdIdWHERE c.CartId = ?";
+		    String sql = "SELECT c.CartId, r.Rid, r.Name, r.Email, r.Address,r.PhoneNo,  p.ProdName, p.Description, p.Price, " +
+		                 "c.Quantity, (p.Price * c.Quantity) AS TotalPrice FROM Cart c JOIN RegistrationMaster r ON c.Rid = r.Rid " +
+		                 "JOIN Product p ON c.ProdId = p.ProdId WHERE c.CartId = ?";
 
 		    return jdbcTemplate.queryForObject(sql, new Object[]{cartId}, new RowMapper<CartModel>() {
 		        @Override
@@ -53,7 +53,7 @@ public class CartRepository {
 
 		            cart.setCartId(rs.getInt("CartId"));
 		            cart.setRid(rs.getInt("Rid"));
-		            cart.setProdId(rs.getInt("ProdId"));
+		           
 		            cart.setQuantity(rs.getInt("Quantity"));
 
 		            RegistrationModel reg = new RegistrationModel();
@@ -65,7 +65,7 @@ public class CartRepository {
 		            cart.setRegistration(reg);
 
 		            ProductModel prod = new ProductModel();
-		            prod.setPid(rs.getInt("ProdId"));
+		        
 		            prod.setProname(rs.getString("ProdName"));
 		            prod.setDescription(rs.getString("Description"));
 		            prod.setPrice(rs.getInt("Price"));
