@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.techhub.demo.Model.ProductModel;
 import com.techhub.demo.Model.RegistrationModel;
 import com.techhub.demo.Model.productCategoryModel;
 import com.techhub.demo.Service.RegistrationService;
@@ -47,4 +48,28 @@ public class prodCategoryController {
 			throw new UserNotFoundException("there is no data in database");
 		}
 	}
+	 @PutMapping("/updateCategory/{CgId}")
+		public String updateUser(@PathVariable("CgId") Integer id,@RequestBody productCategoryModel  Category)
+		{
+			boolean b = categoryService.isUpdateCategory(id, Category);
+					if(b)
+					{
+						return "Category is update"+Category;
+					}
+					else
+					{
+						throw new UserNotFoundException("Category is not found");
+					}
+		}
+	 @GetMapping("/deleteCategory/{cId}")
+		public String deleteCategory(@PathVariable("cId") Integer id){
+			boolean b = categoryService.removeCategory(id);
+			if(b)
+			{
+				return "Category is deleted";
+			}
+			else {
+				throw new UserNotFoundException("Category is not found");
+			}
+		}
 }

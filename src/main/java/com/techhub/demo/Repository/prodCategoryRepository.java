@@ -25,13 +25,13 @@ public class prodCategoryRepository {
 	
 	public boolean isAddNewCategory(productCategoryModel category)
 	{
-		int value = jdbcTemplate.update("insert into ProdCategory values (?,?)",new PreparedStatementSetter()
+		int value = jdbcTemplate.update("insert into ProdCategory values ('0',?)",new PreparedStatementSetter()
 				{
 
 					@Override
 					public void setValues(PreparedStatement ps) throws SQLException {
-						ps.setInt(1, category.getPcid());
-						ps.setString(2, category.getPcname());
+//						ps.setInt(1, category.getPcid());
+						ps.setString(1, category.getPcname());
 						
 					}
 
@@ -54,4 +54,17 @@ public class prodCategoryRepository {
 		});
 		return list; //RegService.getAllRegistration();
 	}
+	public boolean isUpdateCategory(int CgId,productCategoryModel Category)
+	{
+		 int result = jdbcTemplate.update(
+		            "UPDATE ProdCategory SET pcname = ? WHERE pcid = ?",
+		            Category.getPcname(), CgId
+		        );		return result>0;
+		
+	}
+	 public boolean removeCategory(int cId) {
+	        String sql = "DELETE FROM ProdCategory WHERE pcid = ?";
+	        int value=jdbcTemplate.update(sql, cId);
+	        return value>0?true:false;
+	    }
 }

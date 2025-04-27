@@ -23,4 +23,11 @@ public class prodCategoryService {
 	{
     	return Repo.getAllProductCategory();
 	}
+    public boolean isUpdateCategory(int CgId,productCategoryModel Category)
+	{
+    	return Repo.isUpdateCategory(CgId,Category);
+	}
+    public boolean removeCategory(int cId) {
+    	return Repo.removeCategory(cId);
+    }
 }

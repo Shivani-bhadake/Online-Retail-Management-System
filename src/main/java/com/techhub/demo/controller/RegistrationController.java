@@ -20,10 +20,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techhub.demo.Model.LoginRequest;
+import com.techhub.demo.Model.OtpCache;
+import com.techhub.demo.Model.OTPRequest;
 import com.techhub.demo.Model.RegistrationModel;
+
 import com.techhub.demo.Service.RegistrationService;
 
 import jakarta.servlet.http.HttpSession;
+
 
 import com.techhub.demo.Exceptions.ErrorMessage;
 import com.techhub.demo.Exceptions.UserNotFoundException;
@@ -34,8 +38,8 @@ public class RegistrationController {
 
 	@Autowired
 	@Qualifier("Reg")
-	RegistrationService RegService;
-
+	private RegistrationService RegService;
+	
 	@PostMapping("/createRegUser")
 	public String createRUser(@RequestBody RegistrationModel Register) {
 
@@ -141,5 +145,6 @@ public class RegistrationController {
 
 	private Map<String, String> otpCache = new HashMap<>();
 
+	
 
 }
