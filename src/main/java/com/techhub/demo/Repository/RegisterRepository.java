@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -23,8 +24,12 @@ public class RegisterRepository {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
+	@Autowired
+	 BCryptPasswordEncoder passwordEncoder;
 	public boolean isAddNewRegUser(RegistrationModel Register)
 	{
+		String hashedPassword = passwordEncoder.encode(Register.getPassword());
+		Register.setPassword(hashedPassword);
 		int value = jdbcTemplate.update("insert into RegistrationMaster values (?,?, ?, ?, ?, ?, ?)",new PreparedStatementSetter()
 				{
 
@@ -112,9 +117,9 @@ public class RegisterRepository {
 	
 	public RegistrationModel userLogin(String email, String password) {
 	    try {
-	        return jdbcTemplate.queryForObject(
-	                "SELECT * FROM RegistrationMaster WHERE email = ? AND password = ?",
-	                new Object[]{email, password},
+	    	RegistrationModel user= jdbcTemplate.queryForObject(
+	                "SELECT * FROM RegistrationMaster WHERE email = ?",
+	                new Object[]{email},
 	                new RowMapper<RegistrationModel>() {
 	                    @Override
 	                    public RegistrationModel mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -126,6 +131,13 @@ public class RegisterRepository {
 	                    }
 	                }
 	        );
+	        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+	            System.out.println("Password matches");
+	            return user;
+	        } else {
+	            System.out.println("Password does not match");
+	            return null;
+	        }
 	    } catch (EmptyResultDataAccessException e) {
 	        return null;
 	    }
