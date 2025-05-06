@@ -9,19 +9,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techhub.demo.Exceptions.UserNotFoundException;
 import com.techhub.demo.Model.ProductModel;
 import com.techhub.demo.Model.RegistrationModel;
 import com.techhub.demo.Model.productCategoryModel;
-import com.techhub.demo.Service.ProductServicece;
+import com.techhub.demo.Service.ProductService;
 @RestController
-
+@RequestMapping("/Retail-M-System/products")
 public class ProductController {
 	@Autowired
 	@Qualifier("pr")
-	ProductServicece prod;
+	ProductService prod;
 	
 	@PostMapping("/addProduct")
 	public String createProduct(@RequestBody  ProductModel  product) {

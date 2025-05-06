@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.techhub.demo.Model.ProductModel;
 import com.techhub.demo.Repository.ProductRepository;
 @Service(" pr")
-public class ProductServicece {
+public class ProductService {
 	 @Autowired
 	private ProductRepository repo;
 	public boolean isAddNewProduct(ProductModel product)

@@ -12,5 +12,6 @@ public class OrderModel {
 	private String PayMethod;
 	private CartModel cart;
 	private RegistrationModel registration;
-	 private ProductModel product;
+	private ProductModel product;
+	private OrderItemModel orderItom;
 }

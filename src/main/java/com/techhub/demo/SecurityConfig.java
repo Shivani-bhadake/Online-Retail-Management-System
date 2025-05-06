@@ -24,21 +24,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     	
     	 http.cors().and().csrf().disable().authorizeHttpRequests(auth ->auth
-         .requestMatchers("/Retail-M-System/Reg/**")
+         .requestMatchers("/Retail-M-System/Reg/**").permitAll()
+        .requestMatchers("/Retail-M-System/products/**")
          .permitAll()
          .anyRequest().
       	 authenticated());
          return http.build();
          
-         
-         
-//       http.cors().and().csrf().disable().authorizeHttpRequests()
-//       .requestMatchers("/")
-//       .permitAll()
-//       .anyRequest().
-//    	 authenticated().and().formLogin();//.loginPage("userLogin").permitAll();
-//       return http.build();
-    }
+     }
 
 }
 
