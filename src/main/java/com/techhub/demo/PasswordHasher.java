@@ -8,19 +8,19 @@ import org.springframework.stereotype.Service;
 
 public class PasswordHasher {
 
-	 private final BCryptPasswordEncoder passwordEncoder;
+	private final BCryptPasswordEncoder passwordEncoder;
 
-	    @Autowired
-	    public PasswordHasher(BCryptPasswordEncoder passwordEncoder) {
-	        this.passwordEncoder = passwordEncoder;
-	    }
+	@Autowired
+	public PasswordHasher(BCryptPasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
 
-	    public String hashPassword(String password) {
-	        return passwordEncoder.encode(password);
-	    }
+	public String hashPassword(String password) {
+		return passwordEncoder.encode(password);
+	}
 
-	    public boolean verifyPassword(String password, String hashedPassword) {
-	        return passwordEncoder.matches(password, hashedPassword);
-	    }
+	public boolean verifyPassword(String password, String hashedPassword) {
+		return passwordEncoder.matches(password, hashedPassword);
+	}
 
 }

@@ -7,10 +7,10 @@ public class ErrorMessage {
 
 	private int statusCode;
 	private String message;
-	
-	public ErrorMessage(int i, String message)
-	{	this.statusCode=i;
-		this.message=message;
+
+	public ErrorMessage(int i, String message) {
+		this.statusCode = i;
+		this.message = message;
 	}
 
 }

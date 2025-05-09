@@ -7,32 +7,34 @@ import org.springframework.stereotype.Service;
 
 import com.techhub.demo.Model.ProductModel;
 import com.techhub.demo.Repository.ProductRepository;
+
 @Service(" pr")
 public class ProductService {
-	 @Autowired
+	@Autowired
 	private ProductRepository repo;
-	public boolean isAddNewProduct(ProductModel product)
-	{
+
+	public boolean isAddNewProduct(ProductModel product) {
 		return repo.isAddNewProduct(product);
 	}
-	public List<ProductModel> getAllProduct()
-	{
+
+	public List<ProductModel> getAllProduct() {
 		return repo.getAllProduct();
-	
+
 	}
-	public boolean isDeleteProduct( String prodname){
+
+	public boolean isDeleteProduct(String prodname) {
 		return repo.isDeleteProduct(prodname);
 	}
-	public boolean isUpdateProduct(ProductModel Product)
-	{
+
+	public boolean isUpdateProduct(ProductModel Product) {
 		return repo.isUpdateProduct(Product);
 	}
-	public ProductModel getProductByName(String Name)
-	{
+
+	public ProductModel getProductByName(String Name) {
 		return repo.getProductByName(Name);
 	}
-	public List<ProductModel> getProductByPattern(String pattern)
-	{
+
+	public List<ProductModel> getProductByPattern(String pattern) {
 		return repo.getProductByPattern(pattern);
 	}
 }

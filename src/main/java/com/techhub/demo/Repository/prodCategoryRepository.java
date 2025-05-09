@@ -22,49 +22,47 @@ public class prodCategoryRepository {
 	List<productCategoryModel> list;
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	
-	public boolean isAddNewCategory(productCategoryModel category)
-	{
-		int value = jdbcTemplate.update("insert into ProdCategory values ('0',?)",new PreparedStatementSetter()
-				{
 
-					@Override
-					public void setValues(PreparedStatement ps) throws SQLException {
+	public boolean isAddNewCategory(productCategoryModel category) {
+		int value = jdbcTemplate.update("insert into ProdCategory values ('0',?)", new PreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
 //						ps.setInt(1, category.getPcid());
-						ps.setString(1, category.getPcname());
-						
-					}
+				ps.setString(1, category.getPcname());
 
-				});
-		
-				return value>0?true:false;
+			}
+
+		});
+
+		return value > 0 ? true : false;
 	}
-	public List<productCategoryModel> getAllProductCategory()
-	{
-		list=jdbcTemplate.query("select *from ProdCategory",new RowMapper<productCategoryModel>() {
+
+	public List<productCategoryModel> getAllProductCategory() {
+		list = jdbcTemplate.query("select *from ProdCategory", new RowMapper<productCategoryModel>() {
 
 			@Override
 			public productCategoryModel mapRow(ResultSet rs, int rowNum) throws SQLException {
-				productCategoryModel  Reg = new productCategoryModel();
+				productCategoryModel Reg = new productCategoryModel();
 				Reg.setPcid(rs.getInt(1));
 				Reg.setPcname(rs.getString(2));
 				return Reg;
 			}
-			
+
 		});
-		return list; //RegService.getAllRegistration();
+		return list; // RegService.getAllRegistration();
 	}
-	public boolean isUpdateCategory(int CgId,productCategoryModel Category)
-	{
-		 int result = jdbcTemplate.update(
-		            "UPDATE ProdCategory SET pcname = ? WHERE pcid = ?",
-		            Category.getPcname(), CgId
-		        );		return result>0;
-		
+
+	public boolean isUpdateCategory(int CgId, productCategoryModel Category) {
+		int result = jdbcTemplate.update("UPDATE ProdCategory SET pcname = ? WHERE pcid = ?", Category.getPcname(),
+				CgId);
+		return result > 0;
+
 	}
-	 public boolean removeCategory(int cId) {
-	        String sql = "DELETE FROM ProdCategory WHERE pcid = ?";
-	        int value=jdbcTemplate.update(sql, cId);
-	        return value>0?true:false;
-	    }
+
+	public boolean removeCategory(int cId) {
+		String sql = "DELETE FROM ProdCategory WHERE pcid = ?";
+		int value = jdbcTemplate.update(sql, cId);
+		return value > 0 ? true : false;
+	}
 }

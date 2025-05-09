@@ -1,4 +1,5 @@
 package com.techhub.demo.Service;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,22 +13,22 @@ import com.techhub.demo.Repository.prodCategoryRepository;
 
 @Service("Cat")
 public class prodCategoryService {
-    @Autowired
-    private prodCategoryRepository Repo;
+	@Autowired
+	private prodCategoryRepository Repo;
 
-    public boolean isAddNewCategory(productCategoryModel category) {
-        return Repo.isAddNewCategory(category);
-    }
-    
-    public List<productCategoryModel> getAllProductCategory()
-	{
-    	return Repo.getAllProductCategory();
+	public boolean isAddNewCategory(productCategoryModel category) {
+		return Repo.isAddNewCategory(category);
 	}
-    public boolean isUpdateCategory(int CgId,productCategoryModel Category)
-	{
-    	return Repo.isUpdateCategory(CgId,Category);
+
+	public List<productCategoryModel> getAllProductCategory() {
+		return Repo.getAllProductCategory();
 	}
-    public boolean removeCategory(int cId) {
-    	return Repo.removeCategory(cId);
-    }
+
+	public boolean isUpdateCategory(int CgId, productCategoryModel Category) {
+		return Repo.isUpdateCategory(CgId, Category);
+	}
+
+	public boolean removeCategory(int cId) {
+		return Repo.removeCategory(cId);
+	}
 }

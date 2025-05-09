@@ -9,44 +9,57 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techhub.demo.Exceptions.UserNotFoundException;
 import com.techhub.demo.Model.CartModel;
 import com.techhub.demo.Model.ProductModel;
 import com.techhub.demo.Service.CartService;
+
 @RestController
+@RequestMapping("/Retail-M-System/Cart")
 public class CartController {
 	@Autowired
 	@Qualifier("cart")
 	private CartService cartS;
-	 @PostMapping("/addCart")
-	    public String addToCart(@RequestBody CartModel cart) {
-	        boolean result = cartS.addToCart(cart);
-	        return result ? "Item added to cart!" : "Failed to add item.";
-	    }
-	 @GetMapping("/viewallCartInfo/{Name}")
-	 public List<CartModel> viewCartInfoByName(@PathVariable("Name") String rName) {
-	     List<CartModel> cartList = cartS.getCartDetailsByUserName(rName);
 
-	     if (cartList != null && !cartList.isEmpty()) {
-	         return cartList;
-	     } else {
-	         throw new UserNotFoundException("There is no cart data for this user in the database.");
-	     }
-	 }
+	@PostMapping("/addCart")
+	public String addToCart(@RequestBody CartModel cart) {
+		boolean result = cartS.addToCart(cart);
+		return result ? "Item added to cart!" : "Failed to add item.";
+	}
 
-	 @GetMapping("/deleteCartItem/{cartId}")
-		public String deleteCart(@PathVariable("cartId") Integer id){
-			boolean b = cartS.removeCartItem(id);
-			if(b)
-			{
-				return "Cart is deleted";
-			}
-			else {
-				throw new UserNotFoundException("Cart is not found");
-			}
+	@GetMapping("/viewallCartInfo/{Name}")
+	public List<CartModel> viewCartInfoByName(@PathVariable("Name") String rName) {
+		List<CartModel> cartList = cartS.getCartDetailsByUserName(rName);
+
+		if (cartList != null && !cartList.isEmpty()) {
+			return cartList;
+		} else {
+			throw new UserNotFoundException("There is no cart data for this user in the database.");
 		}
-	
+	}
+
+	@GetMapping("/viewallCart")
+	public List<CartModel> viewCartInfo() {
+		List<CartModel> cartList = cartS.getCartDetails();
+
+		if (cartList != null && !cartList.isEmpty()) {
+			return cartList;
+		} else {
+			throw new UserNotFoundException("There is no cart data for this user in the database.");
+		}
+	}
+
+	@GetMapping("/deleteCartItem/{cartId}")
+	public String deleteCart(@PathVariable("cartId") Integer id) {
+		boolean b = cartS.removeCartItem(id);
+		if (b) {
+			return "Cart is deleted";
+		} else {
+			throw new UserNotFoundException("Cart is not found");
+		}
+	}
 
 }

@@ -1,4 +1,5 @@
 package com.techhub.demo.controller;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +26,7 @@ import com.techhub.demo.Exceptions.ErrorMessage;
 import com.techhub.demo.Exceptions.UserNotFoundException;
 
 @RestController
+@RequestMapping("/Retail-M-System/prodCat")
 public class prodCategoryController {
 	@Autowired
 	@Qualifier("Cat")
@@ -39,37 +42,34 @@ public class prodCategoryController {
 			return "category is not added";
 		}
 	}
+
 	@GetMapping("/viewAllCategory")
 	public List<productCategoryModel> getAllCategory() {
-		List<productCategoryModel> lt= categoryService.getAllProductCategory();
+		List<productCategoryModel> lt = categoryService.getAllProductCategory();
 		if (lt.size() != 0) {
 			return lt;
 		} else {
 			throw new UserNotFoundException("there is no data in database");
 		}
 	}
-	 @PutMapping("/updateCategory/{CgId}")
-		public String updateUser(@PathVariable("CgId") Integer id,@RequestBody productCategoryModel  Category)
-		{
-			boolean b = categoryService.isUpdateCategory(id, Category);
-					if(b)
-					{
-						return "Category is update"+Category;
-					}
-					else
-					{
-						throw new UserNotFoundException("Category is not found");
-					}
+
+	@PutMapping("/updateCategory/{CgId}")
+	public String updateUser(@PathVariable("CgId") Integer id, @RequestBody productCategoryModel Category) {
+		boolean b = categoryService.isUpdateCategory(id, Category);
+		if (b) {
+			return "Category is update" + Category;
+		} else {
+			throw new UserNotFoundException("Category is not found");
 		}
-	 @GetMapping("/deleteCategory/{cId}")
-		public String deleteCategory(@PathVariable("cId") Integer id){
-			boolean b = categoryService.removeCategory(id);
-			if(b)
-			{
-				return "Category is deleted";
-			}
-			else {
-				throw new UserNotFoundException("Category is not found");
-			}
+	}
+
+	@GetMapping("/deleteCategory/{cId}")
+	public String deleteCategory(@PathVariable("cId") Integer id) {
+		boolean b = categoryService.removeCategory(id);
+		if (b) {
+			return "Category is deleted";
+		} else {
+			throw new UserNotFoundException("Category is not found");
 		}
+	}
 }
